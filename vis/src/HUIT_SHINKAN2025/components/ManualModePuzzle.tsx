@@ -48,7 +48,7 @@ const ManualModePuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
         setPressedMask(Array.from({ length: gridSize }, () => Array(gridSize).fill(false)));
     };
 
-    const score = calculateScore(costBoard, solution);
+    const score = calculateScore(costBoard, pressedMask);
 
     return (
         <div className="space-y-6">

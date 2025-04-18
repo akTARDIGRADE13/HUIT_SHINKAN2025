@@ -44,12 +44,12 @@ export function parseSolutions(text: string): number[][][] {
  */
 export function calculateScore(
     costBoard: number[][],
-    solution: number[][]
+    solution: boolean[][]
 ): number {
     let score = 0;
     for (let i = 0; i < solution.length; i++) {
         for (let j = 0; j < solution[i].length; j++) {
-            if (solution[i][j] === 1) {
+            if (solution[i][j] === true) {
                 score += costBoard[i][j];
             }
         }

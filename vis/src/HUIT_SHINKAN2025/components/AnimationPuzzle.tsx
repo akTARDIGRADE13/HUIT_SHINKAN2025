@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import SolutionInputPuzzle from './SolutionInputPuzzle';
 import AnimationControls from './AnimationControls';
 import PuzzleBoard from './PuzzleBoard';
-import { Style } from '../utils';
+import { calculateScore, Style } from '../utils';
 
 interface Props {
     costBoard: number[][];
@@ -131,6 +131,8 @@ const AnimationPuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
         }
     }
 
+    const score = calculateScore(costBoard, mask);
+
     return (
         <div className="space-y-4">
             <SolutionInputPuzzle onChange={handleSolutionsChange} />
@@ -149,6 +151,12 @@ const AnimationPuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
                 speed={speed}
                 onSpeedChange={setSpeed}
             />
+
+            <div className="flex items-center gap-6 mu-gap-12">
+                <div className="px-6 py-3 bg-white rounded-lg shadow-md text-gray-800 font-semibold">
+                    Score: <span className="text-xl font-bold text-gray-900">{score}</span>
+                </div>
+            </div>
 
             {inputError ? (
                 <div className="text-red-600 p-4">{inputError}</div>
