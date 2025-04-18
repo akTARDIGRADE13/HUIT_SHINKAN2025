@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ManualModePuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
-    // 解状態 (0/1) と押下履歴マスク (true=押した) を持つ
     const [solution, setSolution] = useState<number[][]>(
         () => Array.from({ length: gridSize }, () => Array(gridSize).fill(0))
     );
@@ -17,13 +16,11 @@ const ManualModePuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
         () => Array.from({ length: gridSize }, () => Array(gridSize).fill(false))
     );
 
-    // gridSize が変わった時に両方リセット
     useEffect(() => {
         setSolution(Array.from({ length: gridSize }, () => Array(gridSize).fill(0)));
         setPressedMask(Array.from({ length: gridSize }, () => Array(gridSize).fill(false)));
     }, [gridSize]);
 
-    // クリック時の反転＆マスク更新
     const toggle = (r: number, c: number) => {
         setSolution(prev => {
             const next = prev.map(row => [...row]);
@@ -52,20 +49,25 @@ const ManualModePuzzle: React.FC<Props> = ({ costBoard, gridSize, style }) => {
     };
 
     const score = calculateScore(costBoard, solution);
-    const boardStyle: Style = style;
 
     return (
-        <div className="space-y-4">
-            <div className="flex items-center space-x-4">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded" onClick={reset}>
+        <div className="space-y-6">
+            <div className="flex items-center gap-6 mu-gap-12">
+                <button
+                    className="px-6 py-3 bg-red-500 text-white rounded-lg font-semibold shadow-md hover:bg-red-600 transition-colors"
+                    onClick={reset}
+                >
                     Reset
                 </button>
-                <span>Score: {score}</span>
+                <div className="px-6 py-3 bg-white rounded-lg shadow-md text-gray-800 font-semibold">
+                    Score: <span className="text-xl font-bold text-gray-900">{score}</span>
+                </div>
             </div>
+
             <PuzzleBoard
                 costBoard={costBoard}
                 solution={solution}
-                style={boardStyle}
+                style={style}
                 mask={pressedMask}
                 onCellClick={toggle}
                 hideText={gridSize > 50}

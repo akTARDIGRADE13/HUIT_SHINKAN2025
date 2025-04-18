@@ -10,7 +10,7 @@ export const Layout: React.FC<{ children: ReactNode }> = ({ children }) => (
       {children}
     </main>
     <footer className="bg-gray-100 text-center p-4">
-      © 2025 My Visualizer
+      © 2025 akTARDIGRADE13
     </footer>
   </div>
 );

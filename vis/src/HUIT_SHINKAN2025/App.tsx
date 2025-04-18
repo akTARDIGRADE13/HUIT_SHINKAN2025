@@ -5,8 +5,6 @@ import ManualModePuzzle from './components/ManualModePuzzle';
 import AnimationPuzzle from './components/AnimationPuzzle';
 import { parseTestCase, Style } from './utils';
 
-// **テストケース側が named export になっている想定です。**
-// testcase1.ts の先頭に `export const testcase1 = \`...\`;` のように書かれていれば：
 import { testcase as testcase1 } from './testcase/testcase1';
 import { testcase as testcase2 } from './testcase/testcase2';
 import { testcase as testcase3 } from './testcase/testcase3';
@@ -21,6 +19,11 @@ const TESTCASES: Record<number, { N: number; costBoard: number[][] }> = {
     100: parseTestCase(testcase4),
 };
 
+const buttonClass = (active: boolean, color: string) =>
+    `px-6 py-3 rounded-lg font-semibold transition-colors duration-150 ${
+        active ? `${color} text-white shadow-lg` : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+    }`;
+
 const App: React.FC = () => {
     const [mode, setMode] = useState<Mode>('manual');
     const [gridSize, setGridSize] = useState<5 | 10 | 20 | 100>(5);
@@ -29,29 +32,29 @@ const App: React.FC = () => {
 
     return (
         <Layout>
-            <div className="flex flex-wrap items-center space-x-4 mb-6">
+            <div className="flex flex-col gap-6 mb-8">
                 {/* モード切替 */}
-                <div>
+                <div className="flex gap-4">
                     <button
-                        className={`px-3 py-1 ${mode === 'manual' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={buttonClass(mode === 'manual', 'bg-blue-500')}
                         onClick={() => setMode('manual')}
                     >
-                        手動モード
+                        手動モード {mode === 'manual' && '(選択中)'}
                     </button>
                     <button
-                        className={`px-3 py-1 ${mode === 'integration' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                        className={buttonClass(mode === 'integration', 'bg-blue-500')}
                         onClick={() => setMode('integration')}
                     >
-                        統合モード
+                        統合モード {mode === 'integration' && '(選択中)'}
                     </button>
                 </div>
                 {/* グリッドサイズ */}
-                <div>
-                    サイズ:
+                <div className="flex items-center gap-4">
+                    <span className="text-gray-700 font-semibold">サイズ : </span>
                     {[5, 10, 20, 100].map(n => (
                         <button
                             key={n}
-                            className={`ml-2 px-2 py-1 ${gridSize === n ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
+                            className={buttonClass(gridSize === n, 'bg-green-500')}
                             onClick={() => setGridSize(n as 5 | 10 | 20 | 100)}
                         >
                             {n}×{n}
@@ -59,14 +62,12 @@ const App: React.FC = () => {
                     ))}
                 </div>
                 {/* ビジュアライズスタイル */}
-                <div>
-                    スタイル:
+                <div className="flex items-center gap-4">
+                    <span className="text-gray-700 font-semibold">スタイル : </span>
                     {(['default', 'highlight', 'weight'] as Style[]).map(s => (
                         <button
                             key={s}
-                            className={`ml-2 px-2 py-1 ${
-                                style === s ? 'bg-purple-500 text-white' : 'bg-gray-200'
-                            }`}
+                            className={buttonClass(style === s, 'bg-purple-500')}
                             onClick={() => setStyle(s)}
                         >
                             {s === 'default' ? '標準' : s === 'highlight' ? '強調' : '重み合成'}
@@ -75,21 +76,23 @@ const App: React.FC = () => {
                 </div>
             </div>
 
-            {mode === 'manual' ? (
-                <ManualModePuzzle
-                    key={`manual-${gridSize}`}
-                    costBoard={costBoard}
-                    gridSize={gridSize}
-                    style={style}
-                />
-            ) : (
-                <AnimationPuzzle
-                    key={`integration-${gridSize}`}
-                    costBoard={costBoard}
-                    gridSize={gridSize}
-                    style={style} 
-                />
-            )}
+            <div className="p-4 bg-gray-50 rounded-lg shadow-md">
+                {mode === 'manual' ? (
+                    <ManualModePuzzle
+                        key={`manual-${gridSize}`}
+                        costBoard={costBoard}
+                        gridSize={gridSize}
+                        style={style}
+                    />
+                ) : (
+                    <AnimationPuzzle
+                        key={`integration-${gridSize}`}
+                        costBoard={costBoard}
+                        gridSize={gridSize}
+                        style={style}
+                    />
+                )}
+            </div>
         </Layout>
     );
 };
