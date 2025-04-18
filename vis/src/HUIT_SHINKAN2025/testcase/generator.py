@@ -43,9 +43,9 @@ if __name__ == "__main__":
     # グリッドサイズと出力ファイル名の対応（TypeScript ファイルと txt ファイル）
     sizes = {
         5: ("./testcase1.ts", "./testcase1.txt"),
-        10: ("./testcase2.ts", "./testcase2.txt"),
-        20: ("./testcase3.ts", "./testcase3.txt"),
-        100: ("./testcase4.ts", "./testcase4.txt")
+        20: ("./testcase2.ts", "./testcase2.txt"),
+        50: ("./testcase3.ts", "./testcase3.txt"),
+        95: ("./testcase4.ts", "./testcase4.txt")
     }
     
     for n, (ts_filename, txt_filename) in sizes.items():
