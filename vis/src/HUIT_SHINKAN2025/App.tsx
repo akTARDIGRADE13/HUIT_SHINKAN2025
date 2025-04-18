@@ -14,9 +14,9 @@ type Mode = 'manual' | 'integration';
 
 const TESTCASES: Record<number, { N: number; costBoard: number[][] }> = {
     5: parseTestCase(testcase1),
-    10: parseTestCase(testcase2),
-    20: parseTestCase(testcase3),
-    100: parseTestCase(testcase4),
+    20: parseTestCase(testcase2),
+    50: parseTestCase(testcase3),
+    95: parseTestCase(testcase4),
 };
 
 const buttonClass = (active: boolean, color: string) =>
@@ -26,7 +26,7 @@ const buttonClass = (active: boolean, color: string) =>
 
 const App: React.FC = () => {
     const [mode, setMode] = useState<Mode>('manual');
-    const [gridSize, setGridSize] = useState<5 | 10 | 20 | 100>(5);
+    const [gridSize, setGridSize] = useState<5 | 20 | 50 | 95>(5);
     const [style, setStyle] = useState<Style>('default');
     const { costBoard } = TESTCASES[gridSize];
 
@@ -51,11 +51,11 @@ const App: React.FC = () => {
                 {/* グリッドサイズ */}
                 <div className="flex items-center gap-4">
                     <span className="text-gray-700 font-semibold">サイズ : </span>
-                    {[5, 10, 20, 100].map(n => (
+                    {[5, 20, 50, 95].map(n => (
                         <button
                             key={n}
                             className={buttonClass(gridSize === n, 'bg-green-500')}
-                            onClick={() => setGridSize(n as 5 | 10 | 20 | 100)}
+                            onClick={() => setGridSize(n as 5 | 20 | 50 | 95)}
                         >
                             {n}×{n}
                         </button>
